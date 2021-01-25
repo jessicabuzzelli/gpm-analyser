@@ -1,7 +1,9 @@
-
+app/data/
 *.xml
 *.iml
 *.pyc
 *.tcl
 venv/
 .idea/
+test-data/
+app/src/credentials.R
