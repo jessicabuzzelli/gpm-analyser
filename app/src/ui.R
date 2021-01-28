@@ -24,16 +24,19 @@ shinyUI(
       sidebarMenu(id = "tabs",
         menuItem("Home", tabName = "home", icon=icon("home")),
         menuItem("Tracks", tabName = "viewTracks", icon = icon("table")),
+        menuItem("Artists", tabName = "viewArtists", icon = icon("table")),
+        menuItem("Albums", tabName = "viewAlbums", icon = icon("table")),
         menuItem("Playlists", tabName = "viewPlaylists", icon = icon("table"))
-      )
+    )
     ),
 
     dashboardBody(
-      use_gotop(src = "fas fa-arrow-alt-circle-up", opacity=1), 
+      use_gotop(src = "fas fa-arrow-alt-circle-up", opacity=1),
+
       tabItems(
         tabItem(tabName = "home",
-          h3("Home"),
-#          fileInput("file", "Choose file", accept=as.vector(".zip")),
+          h3("Home")
+#          ,fileInput("file", "Choose file", accept=as.vector(".zip")),
 #          renderText("file_message")
         ),
 
@@ -42,11 +45,18 @@ shinyUI(
           DTOutput("tracksTbl")),
 
         tabItem(tabName = "viewPlaylists",
-          h3("Playlists"),
-          selectInput("playlist_choice", 
+          selectInput("playlist_choice",
                       label="Select a playlist:", 
                       choices = c('', playlist_names[1])),
-          DTOutput("playlistTbl"))
+          DTOutput("playlistTbl")),
+
+          tabItem(tabName = "viewArtists",
+          h3("All Artists"),
+          DTOutput("artistsTbl")),
+
+          tabItem(tabName = "viewAlbums",
+          h3("All Albums"),
+          DTOutput("albumsTbl"))
       )
     ),
   )

@@ -18,7 +18,7 @@ shinyServer(function(input, output, session) {
   v <- reactiveValues(playlist_selection = "None")
   
   output$tracksTbl <- renderDT({
-    sql <- paste(readLines('SQL/viewTracks.sql', warn=FALSE), collapse=' \n ')
+    sql <- paste(readLines(file.path(home_dir, "app", "src", "SQL","viewTracks.sql"), warn=FALSE), collapse=' \n ')
     dbGetQuery(conn, sql)}, 
     filter = 'top',
     rownames = FALSE,
@@ -26,6 +26,28 @@ shinyServer(function(input, output, session) {
     options = list(paging = FALSE, 
                    dom = 'Bfrtip',
                    buttons = c('copy', 'print', 'csv'), 
+                   scrollX = T))
+
+    output$artistsTbl <- renderDT({
+    sql <- paste(readLines(file.path(home_dir, "app", "src", "SQL","viewArtists.sql"), warn=FALSE), collapse=' \n ')
+    dbGetQuery(conn, sql)},
+    filter = 'top',
+    rownames = FALSE,
+    extensions = 'Buttons',
+    options = list(paging = FALSE,
+                   dom = 'Bfrtip',
+                   buttons = c('copy', 'print', 'csv'),
+                   scrollX = T))
+
+    output$albumsTbl <- renderDT({
+    sql <- paste(readLines(file.path(home_dir, "app", "src", "SQL","viewAlbums.sql"), warn=FALSE), collapse=' \n ')  #todo: change /SQL/...sql filepath to file.path()
+    dbGetQuery(conn, sql)},
+    filter = 'top',
+    rownames = FALSE,
+    extensions = 'Buttons',
+    options = list(paging = FALSE,
+                   dom = 'Bfrtip',
+                   buttons = c('copy', 'print', 'csv'),
                    scrollX = T))
 
   output$playlistTbl <- renderDT({
