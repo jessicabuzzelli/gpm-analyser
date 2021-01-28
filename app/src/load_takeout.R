@@ -7,8 +7,8 @@ library("RSQLite")
 
 load_takeout <- function(home_dir){
 
+  # todo - pass zipf param from Shiny
   zipf <- tcltk::tk_choose.files(filters=matrix(c("ZIP", ".zip"), nrow=1, ncol=2, byrow=TRUE))
-  # zipf <- file.path(home_dir, "test_data", "takeout-20210124T042335Z-001.zip")
 
   data_dir <- file.path(home_dir, "app", "data")
   takeout_dir <- file.path(data_dir, "Takeout")
@@ -20,20 +20,20 @@ load_takeout <- function(home_dir){
   unzip(zipfile=zipf, exdir=data_dir, overwrite=TRUE)
 
   if(!dir.exists(data_dir)){
-    stop("Invalid file. Please select a Google Takeout zip file.")
+    return("Invalid file. Please select a Google Takeout zip file.")
   }
 
   if(!dir.exists(file.path(takeout_dir, "Google Play Music"))){
-    stop("Google Takeout found but Google Play Music data does not exist.")
+    return("Google Takeout found but Google Play Music data does not exist.")
   }
 
-  print("Loading Google Play Music data... (this could take a while)")
+  # print("Loading Google Play Music data... (this could take a while)")
 
   load_sqlite(data_dir)
 
-  print("Load complete! Analyzing...")
+  #print("Load complete! Analyzing...")
   setwd(home_dir)
-
+  return("Data loaded successfully!")
 }
 
 load_sqlite <- function(data_dir){
@@ -146,6 +146,7 @@ create_tables <- function(conn){
 
 format_db <- function(conn){
   # Fix weird encoding:
+  # todo: find a better fix
   dbExecute(conn, "update all_tracks set track_title = replace(track_title, '&#39;', '''');")
   dbExecute(conn, "update all_tracks set album_title = replace(album_title, '&#39;', '''');")
   dbExecute(conn, "update all_tracks set artist = replace(artist, '&#39;', '''');")
@@ -161,4 +162,14 @@ format_db <- function(conn){
   dbExecute(conn, "update playlist_tracks set album_title = replace(album_title, '&amp;', '&');")
   dbExecute(conn, "update playlist_tracks set artist = replace(artist, '&amp;', '&');")
   dbExecute(conn, "update playlists set playlist_name = replace(playlist_name, '&amp;', '&');")
-}
+
+  # Reset null values from 'NA' to "NULL"
+  dbExecute(conn, "update playlists set playlist_name = 'REMOVED' where playlist_name = 'NA';")
+  dbExecute(conn, "update playlist_tracks set artist = 'REMOVED' where artist = 'NA';")
+  dbExecute(conn, "update playlist_tracks set album_title = 'REMOVED' where album_title = 'NA';")
+  dbExecute(conn, "update playlist_tracks set track_title = 'REMOVED' where track_title = 'NA';")
+  dbExecute(conn, "update all_tracks set track_title = 'REMOVED' where track_title = 'NA';")
+  dbExecute(conn, "update all_tracks set album_title = 'REMOVED' where album_title = 'NA';")
+  dbExecute(conn, "update all_tracks set artist = 'REMOVED' where artist = 'NA';")
+
+  }
