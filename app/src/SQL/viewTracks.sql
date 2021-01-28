@@ -1,0 +1,1 @@
+select * from all_tracks order by play_count desc;

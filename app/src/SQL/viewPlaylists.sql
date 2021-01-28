@@ -1,0 +1,1 @@
+select playlist_id, playlist_index, track_id, track_title, album_title, artist, duration, rating, play_count from playlist_tracks where playlist_id = (select distinct playlist_id from playlists where playlist_name = <playlist_choice>) order by playlist_index;
