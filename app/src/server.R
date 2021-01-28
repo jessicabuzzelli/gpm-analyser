@@ -10,9 +10,9 @@ library("DBI")
 library("DBI")
 library("dplyr")
 library("dbplyr")
+
 source(file.path(src_dir, "load_takeout.R"))
 
-conn <- dbPool(drv=RSQLite::SQLite(), dbname=file.path(home_dir, "app", "data", "gpm.db"))
 
 shinyServer(function(input, output, session) {
   v <- reactiveValues(playlist_selection = "None")
@@ -60,4 +60,5 @@ shinyServer(function(input, output, session) {
     extensions = 'Buttons', 
     options = list(paging = FALSE, dom = 'Bfrtip',buttons = c('copy', 'print', 'csv'), scrollX = T)
   )
+
 })
