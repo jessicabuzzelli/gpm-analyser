@@ -1,0 +1,1 @@
+select artist 'Artist', count(distinct track_id) 'Tracks Listened', count(distinct album_title) 'Albums Listened', round((avg(duration) * sum(play_count))/3.6e+6,2) 'Hours Listened', sum(play_count) 'Play Count', round(avg(rating)) 'Average Rating' from all_tracks group by artist order by 5 desc;

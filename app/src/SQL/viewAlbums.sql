@@ -1,0 +1,1 @@
+select album_title 'Album', count(distinct track_title) 'Tracks Listened', round((avg(duration) * sum(play_count))/3.6e+6,2) 'Hours Listened', count(play_count) 'Play Count', round(avg(rating),2) 'Average Rating'  from all_tracks group by album_title order by 4 desc;
