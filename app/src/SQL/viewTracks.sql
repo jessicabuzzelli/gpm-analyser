@@ -1,1 +1,1 @@
-select * from all_tracks order by play_count desc;
+select track_title 'Track', album_title 'Album', artist 'Artist', round((duration * play_count)/3.6e+6,2) 'Hours Listened', play_count 'Play Count', rating 'Rating' from all_tracks order by play_count desc;
