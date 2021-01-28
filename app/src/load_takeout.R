@@ -162,6 +162,13 @@ format_db <- function(conn){
   dbExecute(conn, "update playlist_tracks set album_title = replace(album_title, '&amp;', '&');")
   dbExecute(conn, "update playlist_tracks set artist = replace(artist, '&amp;', '&');")
   dbExecute(conn, "update playlists set playlist_name = replace(playlist_name, '&amp;', '&');")
+  dbExecute(conn, "update playlists set playlist_name = replace(playlist_name, '&gt;', '>');")
+  dbExecute(conn, "update all_tracks set track_title = replace(track_title, '&gt;', '>');")
+  dbExecute(conn, "update all_tracks set album_title = replace(album_title, '&gt;', '>');")
+  dbExecute(conn, "update all_tracks set artist = replace(artist, '&gt;', '>');")
+  dbExecute(conn, "update playlist_tracks set track_title = replace(track_title, '&gt;', '&');")
+  dbExecute(conn, "update playlist_tracks set album_title = replace(album_title, '&gt;', '&');")
+  dbExecute(conn, "update playlist_tracks set artist = replace(artist, '&gt;', '&');")
 
   # Reset null values from 'NA' to "NULL"
   dbExecute(conn, "update playlists set playlist_name = 'REMOVED' where playlist_name = 'NA';")
