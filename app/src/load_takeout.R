@@ -33,7 +33,7 @@ load_takeout <- function(home_dir){
 
   #print("Load complete! Analyzing...")
   setwd(home_dir)
-  return("Data loaded successfully!")
+  return("SUCCESS")
 }
 
 load_sqlite <- function(data_dir){
