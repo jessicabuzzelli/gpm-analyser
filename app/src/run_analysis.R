@@ -12,6 +12,7 @@ run_analysis <- function(client_id, client_secret, home_dir){
   conn <- connect_sqlite(home_dir)
 
   top_artists_data <- get_top_artists(conn, access_token)
+  playlist_names <- dbGetQuery(conn, "SELECT DISTINCT title FROM playlists;")
 
   dbDisconnect(conn)
 }
@@ -37,13 +38,14 @@ get_top_artists <- function(conn, access_token){
   artists <- vector()
 
   for(s in search_terms[, 'artist']){
-    results <- spotifyr::search_spotify(q=s, type=c("artist"), authorization=access_token)
+    results <- spotifyr::search_spotify(q=s, type=as.vector("artist"), authorization=access_token)
 
     if(nrow(results) > 0){
       ids <- c(ids, results$uri[1])
       artists <- c(artists, stringr::str_replace(s, "\\+", " "))
     }
   }
+
   ids <- stringr::str_replace_all(ids, "spotify:artist:", "")
   results <- spotifyr::get_artists(ids=ids, authorization=access_token)
 
