@@ -13,6 +13,8 @@ library("gotop")
 
 
 # Will live in "run_analysis.R" later:
+conn <- dbPool(drv=RSQLite::SQLite(), dbname=file.path(home_dir, "app", "data", "gpm.db"))
+
 playlist_names <- dbGetQuery(conn, "SELECT DISTINCT playlist_name FROM playlists;")[1]
 top_five_tracks <- dbGetQuery(conn, "select track_title from (select track_title, sum(play_count) from all_tracks group by track_title order by sum(play_count) desc limit 5);")[1]
 top_five_artists <- dbGetQuery(conn, "select artist from (select artist, sum(play_count) from all_tracks group by artist order by sum(play_count) desc limit 5);")[1]
