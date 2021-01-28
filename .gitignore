@@ -7,3 +7,4 @@ venv/
 .idea/
 test-data/
 app/src/credentials.R
+examples/
