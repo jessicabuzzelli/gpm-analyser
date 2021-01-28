@@ -1,4 +1,4 @@
-# gpm-analyser
+# gpm-analyzer
 Playing around with R to display a user's Google Play Music data in a more usable format. 
 
 #### Download your Google Takeout [here](https://takeout.google.com/settings/takeout). 
