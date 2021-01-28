@@ -8,3 +8,9 @@ Make sure Google Play Music data is included in your export:
 #### To run: 
 - Run `Rscript app/app.R` from `gpm-analyser/`
 - Select your unzipped Google Takeout file when prompted
+
+### Screen grabs:
+![Batteries included!](images/run.png)
+
+![UI tour](images/ui.gif)
+
